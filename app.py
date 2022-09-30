@@ -1,10 +1,14 @@
 import os
+import nmap
+
+nm = nmap.nmap.PortScanner()
 
 gateway = input ('Gateway Ex. 192.168.1.1/24: ') # GATEWAY
 print ('')
 
 print ("Let's Scan Your Network")
-os.system('namp ' + gateway + ' -sS') # NMAP
+scan_range = nm.scan(hosts=gateway) # SCAN NETWORK
+print(scan_range['scan'])
 print ('')
 
 device = input ('Device to Attack: ') # DEVICE TO ATTACK
