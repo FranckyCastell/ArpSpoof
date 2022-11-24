@@ -50,20 +50,19 @@ print('')
 
 
 def dos():
+    print(f"{bcolors.ENDC}{bcolors.BOLD}LET'S PRINT YOUR GATEWAY: {bcolors.ENDC}")
+    print('')
+    os.system('route -n')
+    print('')
     gateway = input(
         f'{bcolors.ENDC}{bcolors.BOLD}YOUR GATEWAY Ex. 192.168.1.1/24: {bcolors.ENDC}{bcolors.OKGREEN}')  # GATEWAY
     router = gateway[:-3]
     print(f'{bcolors.WARNING}SET ')
     print('')
 
-    # DISCOVERY DEVICES
-    print(f"{bcolors.ENDC}{bcolors.BOLD}LET'S SCAN YOUR NETWORK: {bcolors.ENDC}")
-    os.system('nmap ' + gateway + ' -sP')
-    print('')
-
     # DEVICE TO ATTACK
     device = input(
-        f'{bcolors.BOLD}DEVICE TO ATTACK: {bcolors.ENDC}{bcolors.OKGREEN}')
+        f'{bcolors.ENDC}{bcolors.BOLD}DEVICE TO ATTACK: {bcolors.ENDC}{bcolors.OKGREEN}')
     print(f'{bcolors.WARNING}SET ')
     print('')
 
@@ -72,7 +71,7 @@ def dos():
     os.system('nmcli device status')
     print('')
     network_interface = input(
-        f'{bcolors.BOLD}NETWORK INTERFACE TO USE: {bcolors.ENDC}')
+        f'{bcolors.BOLD}NETWORK INTERFACE TO USE: {bcolors.ENDC}{bcolors.OKGREEN}')
     print(f'{bcolors.WARNING}SET ')
     print('')
 
