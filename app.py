@@ -50,7 +50,8 @@ print('')
 
 
 def dos():
-
+    
+    print(f"{bcolors.ENDC}{bcolors.BOLD}INSTALLING DEPENDENCES ...{bcolors.ENDC}")
     os.system('sudo apt-get install network-manager')
 
     print(f"{bcolors.ENDC}{bcolors.BOLD}LET'S PRINT YOUR GATEWAY: {bcolors.ENDC}")
