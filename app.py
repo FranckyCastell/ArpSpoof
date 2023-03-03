@@ -50,6 +50,9 @@ print('')
 
 
 def dos():
+
+    os.system('sudo apt-get install network-manager')
+
     print(f"{bcolors.ENDC}{bcolors.BOLD}LET'S PRINT YOUR GATEWAY: {bcolors.ENDC}")
     print('')
     os.system('route -n')
